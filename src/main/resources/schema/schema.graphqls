@@ -1,0 +1,23 @@
+type Query {
+
+    expenses : [Expense]
+
+}
+
+
+type Expense {
+    id: ID
+    remarks: String
+    amount: Int
+    isIncome: Boolean
+}
+
+type Mutation {
+    createExpense(data: ExpenseInput) : Expense
+}
+
+input ExpenseInput {
+    remarks: String
+    amount: Int
+    isIncome: Boolean
+}
