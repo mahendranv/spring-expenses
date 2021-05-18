@@ -1,7 +1,7 @@
 type Query {
 
     expenses : [Expense]
-
+    accounts: [Account]
 }
 
 
@@ -16,6 +16,9 @@ type Mutation {
     createExpense(data: ExpenseInput) : Expense
     deleteExpense(id: ID) : Boolean
     updateExpense(expense: UpdatedExpense): Expense
+
+    updateAccount(account: AccountInput) : Account
+    deleteAccount(acNumber: Int) : Boolean
 }
 
 input UpdatedExpense {
@@ -29,4 +32,16 @@ input ExpenseInput {
     remarks: String
     amount: Int
     isIncome: Boolean
+}
+
+type Account {
+    acNumber: ID,
+    nickName: String,
+    balance: Int
+}
+
+input AccountInput {
+    acNumber: ID,
+    nickName: String,
+    balance: Int
 }
