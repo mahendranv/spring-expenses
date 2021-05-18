@@ -9,12 +9,8 @@ import kotlin.random.Random
 class ExpenseDataFetcher {
 
     private val expenses = mutableListOf(
-        Expense(id = 1, amount = 10, remarks = "Expense 1", isIncome = false),
-        Expense(id = 2, amount = 120, remarks = "Expense 1", isIncome = false),
-        Expense(id = 3, amount = 110, remarks = "Expense 1", isIncome = false),
-        Expense(id = 4, amount = 30, remarks = "Expense 1", isIncome = false),
-        Expense(id = 5, amount = 70, remarks = "Expense 1", isIncome = false),
-        Expense(id = 6, amount = 90, remarks = "Income 1", isIncome = true),
+        Expense(id = 1, amount = 16000, remarks = "Rent", isIncome = false),
+        Expense(id = 2, amount = 100000, remarks = "Salary", isIncome = false),
     )
 
     @DgsQuery
@@ -34,6 +30,24 @@ class ExpenseDataFetcher {
             isIncome = data.isIncome,
         )
         expenses.add(0, expense)
+        return expense
+    }
+
+    @DgsMutation
+    fun deleteExpense(id: Int): Boolean {
+        return expenses.removeIf { it.id == id }
+    }
+
+    @DgsMutation
+    fun updateExpense(expense: Expense): Expense {
+        // This is an upsert operation. If id already present in list
+        // overwrite it / otherwise insert at 0th index
+        val index = expenses.indexOfFirst { it.id == expense.id }
+        if (index != -1) {
+            expenses[index] = expense
+        } else {
+            expenses.add(0, expense)
+        }
         return expense
     }
 
