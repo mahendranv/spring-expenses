@@ -31,7 +31,8 @@ input UpdatedExpense {
 input ExpenseInput {
     remarks: String
     amount: Int
-    isIncome: Boolean
+    isIncome: Boolean,
+    acNumber: Int
 }
 
 type Account {

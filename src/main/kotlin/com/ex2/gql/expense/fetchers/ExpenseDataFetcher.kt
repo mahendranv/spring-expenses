@@ -25,6 +25,7 @@ class ExpenseDataFetcher {
             amount = data.amount,
             remarks = data.remarks,
             isIncome = data.isIncome,
+            acNumber = data.acNumber,
         )
         DataSource.expenses.add(0, expense)
         return expense

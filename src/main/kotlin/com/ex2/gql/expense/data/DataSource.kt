@@ -12,8 +12,8 @@ object DataSource {
     )
 
     val expenses = mutableListOf(
-        Expense(id = 1, amount = 10000, remarks = "Rent", isIncome = false),
-        Expense(id = 2, amount = 4000, remarks = "Bills", isIncome = false),
-        Expense(id = 2, amount = 1000, remarks = "Books", isIncome = false),
+        Expense(id = 1, amount = 10000, remarks = "Rent", isIncome = false, acNumber = 1),
+        Expense(id = 2, amount = 4000, remarks = "Bills", isIncome = false, acNumber = 1),
+        Expense(id = 2, amount = 1000, remarks = "Books", isIncome = false, acNumber = 2),
     )
 }
