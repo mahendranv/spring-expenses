@@ -3,6 +3,7 @@ package com.ex2.gql.expense.fetchers
 import com.ex2.gql.expense.data.DataSource
 import com.ex2.gql.expense.data.models.*
 import com.netflix.graphql.dgs.DgsComponent
+import com.netflix.graphql.dgs.DgsDataFetchingEnvironment
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.DgsQuery
 import kotlin.random.Random
@@ -11,15 +12,25 @@ import kotlin.random.Random
 class ExpenseDataFetcher {
 
     @DgsQuery
-    fun expenses(): List<FatExpense> {
+    fun expenses(dfe: DgsDataFetchingEnvironment): List<FatExpense> {
         return DataSource.expenses.map {
-            FatExpense(
+            val result = FatExpense(
                 id = it.id,
                 amount = it.amount,
                 remarks = it.remarks,
                 isIncome = it.isIncome,
-                account = DataSource.DAO.getAccount(it.acNumber)
+                account = null
             )
+
+            val loadAccount = dfe.field
+                .selectionSet
+                .selections
+                .any { field -> (field as? graphql.language.Field)?.name == "account" }
+
+            if (loadAccount) {
+                result.account = DataSource.DAO.getAccount(it.acNumber)
+            }
+            result
         }
     }
 

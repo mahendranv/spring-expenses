@@ -22,5 +22,5 @@ data class FatExpense(
     val amount: Int,
     val remarks: String,
     val isIncome: Boolean,
-    val account: Account
+    var account: Account?
 )
