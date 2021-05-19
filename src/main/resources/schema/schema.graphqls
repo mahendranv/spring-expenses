@@ -10,6 +10,7 @@ type Expense {
     remarks: String
     amount: Int
     isIncome: Boolean
+    account: Account
 }
 
 type Mutation {
@@ -44,5 +45,5 @@ type Account {
 input AccountInput {
     acNumber: ID,
     nickName: String,
-    balance: Int
+    balance: Int,
 }

@@ -11,8 +11,16 @@ import kotlin.random.Random
 class ExpenseDataFetcher {
 
     @DgsQuery
-    fun expenses(): List<Expense> {
-        return DataSource.expenses
+    fun expenses(): List<FatExpense> {
+        return DataSource.expenses.map {
+            FatExpense(
+                id = it.id,
+                amount = it.amount,
+                remarks = it.remarks,
+                isIncome = it.isIncome,
+                account = DataSource.DAO.getAccount(it.acNumber)
+            )
+        }
     }
 
     private val random = Random(10000)

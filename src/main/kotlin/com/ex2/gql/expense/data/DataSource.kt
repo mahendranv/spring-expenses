@@ -16,4 +16,13 @@ object DataSource {
         Expense(id = 2, amount = 4000, remarks = "Bills", isIncome = false, acNumber = 1),
         Expense(id = 2, amount = 1000, remarks = "Books", isIncome = false, acNumber = 2),
     )
+
+    object DAO {
+
+        fun getAccount(acNumber: Int): Account {
+            println("Accounts.getAccount > $acNumber")
+            return accounts.find { it.acNumber == acNumber }!!
+        }
+
+    }
 }
