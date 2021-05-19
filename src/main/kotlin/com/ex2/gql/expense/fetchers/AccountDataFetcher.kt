@@ -1,6 +1,7 @@
 package com.ex2.gql.expense.fetchers
 
 import com.ex2.gql.expense.data.DataSource
+import com.ex2.gql.expense.data.models.*
 import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.DgsQuery
@@ -28,10 +29,4 @@ class AccountDataFetcher {
         }
         return account
     }
-
-    data class Account(
-        val acNumber: Int,
-        val nickName: String,
-        val balance: Int
-    )
 }
