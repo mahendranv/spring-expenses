@@ -2,20 +2,36 @@ package com.ex2.gql.expense.data
 
 import com.ex2.gql.expense.data.models.Account
 import com.ex2.gql.expense.data.models.Expense
+import kotlin.math.absoluteValue
+import kotlin.random.Random
 
 
 object DataSource {
 
     val accounts = mutableListOf(
-        Account(acNumber = 1, nickName = "Axis", balance = 100000),
-        Account(acNumber = 2, nickName = "ICICI", balance = 240000),
+        Account(acNumber = 1, nickName = "Wallet", balance = 100000),
+        Account(acNumber = 2, nickName = "Axis", balance = 240000),
+        Account(acNumber = 3, nickName = "ICICI", balance = 28000),
     )
 
-    val expenses = mutableListOf(
-        Expense(id = 1, amount = 10000, remarks = "Rent", isIncome = false, acNumber = 1),
-        Expense(id = 2, amount = 4000, remarks = "Bills", isIncome = false, acNumber = 1),
-        Expense(id = 2, amount = 1000, remarks = "Books", isIncome = false, acNumber = 2),
-    )
+    val expenses = mutableListOf<Expense>()
+
+    private val random = Random(10000)
+    private fun randomExpense() = random.nextInt(from = 100, until = 800)
+
+    init {
+        for (i in 1..100) {
+            expenses.add(
+                Expense(
+                    id = i,
+                    amount = randomExpense().absoluteValue,
+                    remarks = "Transaction $i",
+                    isIncome = (i % 2 == 0),
+                    acNumber = (i % 3 + 1)
+                )
+            )
+        }
+    }
 
     object DAO {
 
