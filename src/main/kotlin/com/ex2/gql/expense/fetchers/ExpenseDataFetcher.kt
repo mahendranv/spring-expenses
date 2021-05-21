@@ -2,16 +2,13 @@ package com.ex2.gql.expense.fetchers
 
 import com.ex2.gql.expense.data.DataSource
 import com.ex2.gql.expense.data.models.*
-import com.netflix.graphql.dgs.DgsComponent
-import com.netflix.graphql.dgs.DgsDataFetchingEnvironment
-import com.netflix.graphql.dgs.DgsMutation
-import com.netflix.graphql.dgs.DgsQuery
+import com.netflix.graphql.dgs.*
 import kotlin.random.Random
 
 @DgsComponent
 class ExpenseDataFetcher {
 
-    @DgsQuery
+    @DgsData(parentType = "Query", field = "expenses")
     fun expenses(dfe: DgsDataFetchingEnvironment): List<FatExpense> {
         return DataSource.expenses.map {
             val result = FatExpense(
@@ -37,8 +34,8 @@ class ExpenseDataFetcher {
     private val random = Random(10000)
     private fun randomInt() = random.nextInt()
 
-    @DgsMutation
-    fun createExpense(data: ExpenseInput): Expense {
+    @DgsData(parentType = "Mutation", field = "createExpense")
+    fun createExpense(@InputArgument("data") data: ExpenseInput): Expense {
         val expense = Expense(
             id = randomInt(),
             amount = data.amount,
@@ -50,13 +47,13 @@ class ExpenseDataFetcher {
         return expense
     }
 
-    @DgsMutation
-    fun deleteExpense(id: Int): Boolean {
+    @DgsData(parentType = "Mutation", field = "deleteExpense")
+    fun deleteExpense(@InputArgument("id") id: Int): Boolean {
         return DataSource.expenses.removeIf { it.id == id }
     }
 
-    @DgsMutation
-    fun updateExpense(expense: Expense): Expense {
+    @DgsData(parentType = "Mutation", field = "updateExpense")
+    fun updateExpense(@InputArgument("expense") expense: Expense): Expense {
         // This is an upsert operation. If id already present in list
         // overwrite it / otherwise insert at 0th index
         val index = DataSource.expenses.indexOfFirst { it.id == expense.id }
