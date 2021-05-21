@@ -9,26 +9,8 @@ import kotlin.random.Random
 class ExpenseDataFetcher {
 
     @DgsData(parentType = "Query", field = "expenses")
-    fun expenses(dfe: DgsDataFetchingEnvironment): List<FatExpense> {
-        return DataSource.expenses.map {
-            val result = FatExpense(
-                id = it.id,
-                amount = it.amount,
-                remarks = it.remarks,
-                isIncome = it.isIncome,
-                account = null
-            )
-
-            val loadAccount = dfe.field
-                .selectionSet
-                .selections
-                .any { field -> (field as? graphql.language.Field)?.name == "account" }
-
-            if (loadAccount) {
-                result.account = DataSource.DAO.getAccount(it.acNumber)
-            }
-            result
-        }
+    fun expenses(dfe: DgsDataFetchingEnvironment): List<Expense> {
+        return DataSource.expenses
     }
 
     private val random = Random(10000)

@@ -40,5 +40,11 @@ object DataSource {
             return accounts.find { it.acNumber == acNumber }!!
         }
 
+        fun getAccounts(acNumbers: List<Int>): List<Account> {
+            println("DAO.getAccounts - $acNumbers")
+            return accounts.filter {
+                acNumbers.contains(it.acNumber)
+            }
+        }
     }
 }
