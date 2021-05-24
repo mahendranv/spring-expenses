@@ -1,6 +1,5 @@
 package com.ex2.gql.expense.fetchers
 
-import com.ex2.gql.expense.data.models.ExpenseInput
 import com.ex2.gql.expense.jpa.entities.Expense
 import com.ex2.gql.expense.jpa.repo.ExpenseRepository
 import com.netflix.graphql.dgs.*
@@ -23,14 +22,8 @@ class ExpenseDataFetcher {
     private fun randomInt() = random.nextInt()
 
     @DgsData(parentType = "Mutation", field = "createExpense")
-    fun createExpense(@InputArgument("data") data: ExpenseInput): Expense {
-        val expense = Expense(
-            amount = data.amount,
-            remarks = data.remarks,
-            isIncome = data.isIncome,
-            acNumber = data.acNumber,
-        )
-        return expenseRepository.save(expense)
+    fun createExpense(@InputArgument("data") data: Expense): Expense {
+        return expenseRepository.save(data)
     }
 
     @DgsData(parentType = "Mutation", field = "deleteExpense")
