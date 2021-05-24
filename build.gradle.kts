@@ -28,6 +28,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.netflix.graphql.dgs/graphql-dgs-spring-boot-starter
 	implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:3.12.1")
 
+	// JPA
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.5.0")
+
+	// H2 Database
+	runtimeOnly("com.h2database:h2")
+
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
