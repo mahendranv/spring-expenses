@@ -2,6 +2,7 @@ package com.ex2.gql.expense.fetchers
 
 import com.ex2.gql.dgmodels.types.ExpenseFilter
 import com.ex2.gql.dgmodels.types.ExpensePage
+import com.ex2.gql.expense.adapters.ExpenseGEMapper
 import com.ex2.gql.expense.jpa.entities.Expense
 import com.ex2.gql.expense.jpa.repo.ExpenseRepository
 import com.netflix.graphql.dgs.DgsComponent
@@ -43,13 +44,7 @@ class ExpenseDataFetcher {
 
         val result = expenseRepository.findAll(example, pageRequest)
         val list = result.content.map {
-            com.ex2.gql.dgmodels.types.Expense(
-                id = it.id?.toString(),
-                amount = it.amount,
-                remarks = it.remarks,
-                isIncome = it.isIncome,
-                acNumber = it.acNumber
-            )
+            ExpenseGEMapper.toGraph(it)
         }
 
         return ExpensePage(
@@ -63,8 +58,10 @@ class ExpenseDataFetcher {
     private fun randomInt() = random.nextInt()
 
     @DgsData(parentType = "Mutation", field = "createExpense")
-    fun createExpense(@InputArgument("data") data: Expense): Expense {
-        return expenseRepository.save(data)
+    fun createExpense(@InputArgument("data") data: com.ex2.gql.dgmodels.types.Expense): com.ex2.gql.dgmodels.types.Expense {
+        return ExpenseGEMapper.toGraph(
+            expenseRepository.save(ExpenseGEMapper.toEntity(data))
+        )
     }
 
     @DgsData(parentType = "Mutation", field = "deleteExpense")
@@ -74,7 +71,9 @@ class ExpenseDataFetcher {
     }
 
     @DgsData(parentType = "Mutation", field = "updateExpense")
-    fun updateExpense(@InputArgument("expense") expense: Expense): Expense {
-        return expenseRepository.save(expense)
+    fun updateExpense(@InputArgument("expense") expense: com.ex2.gql.dgmodels.types.Expense): com.ex2.gql.dgmodels.types.Expense {
+        return ExpenseGEMapper.toGraph(
+            expenseRepository.save(ExpenseGEMapper.toEntity(expense))
+        )
     }
 }

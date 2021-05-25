@@ -8,7 +8,7 @@ data class Account(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "account_number")
-    val acNumber: Int = 0,
+    val acNumber: Int? = null,
 
     @Column(nullable = false, name = "nick_name")
     val nickName: String = "",

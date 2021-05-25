@@ -1,6 +1,7 @@
 package com.ex2.gql.expense.fetchers
 
 import com.ex2.gql.dgmodels.types.Expense
+import com.ex2.gql.expense.adapters.AccountGEMapper
 import com.ex2.gql.expense.jpa.entities.Account
 import com.ex2.gql.expense.jpa.repo.AccountRepository
 import com.ex2.gql.expense.loaders.AccountsDataLoader
@@ -19,8 +20,8 @@ class AccountDataFetcher {
     private lateinit var accountRepository: AccountRepository
 
     @DgsData(parentType = "Query", field = "accounts")
-    fun accounts(): List<Account> {
-        return accountRepository.findAll().toList()
+    fun accounts(): List<com.ex2.gql.dgmodels.types.Account> {
+        return accountRepository.findAll().map { AccountGEMapper.toGraph(it) }
     }
 
     @DgsData(parentType = "Mutation", field = "deleteAccount")
@@ -30,13 +31,13 @@ class AccountDataFetcher {
     }
 
     @DgsData(parentType = "Mutation", field = "updateAccount")
-    fun updateAccount(@InputArgument("account") account: Account): Account {
-        return accountRepository.save(account)
+    fun updateAccount(@InputArgument("account") account: com.ex2.gql.dgmodels.types.Account): com.ex2.gql.dgmodels.types.Account {
+        return AccountGEMapper.toGraph(accountRepository.save(AccountGEMapper.toEntity(account)))
     }
 
     @DgsData(parentType = "Expense", field = "account")
-    fun getAccounts(dfe: DgsDataFetchingEnvironment): CompletableFuture<Account> {
-        val dataLoader: DataLoader<Int, Account> =
+    fun getAccounts(dfe: DgsDataFetchingEnvironment): CompletableFuture<com.ex2.gql.dgmodels.types.Account> {
+        val dataLoader: DataLoader<Int, com.ex2.gql.dgmodels.types.Account> =
             dfe.getDataLoader(AccountsDataLoader::class.java)
         val source = dfe.getSource<Expense>()
         val acNumber = source.acNumber
