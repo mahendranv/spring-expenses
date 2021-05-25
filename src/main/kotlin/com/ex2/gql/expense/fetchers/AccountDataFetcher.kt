@@ -1,7 +1,7 @@
 package com.ex2.gql.expense.fetchers
 
+import com.ex2.gql.dgmodels.types.Expense
 import com.ex2.gql.expense.jpa.entities.Account
-import com.ex2.gql.expense.jpa.entities.Expense
 import com.ex2.gql.expense.jpa.repo.AccountRepository
 import com.ex2.gql.expense.loaders.AccountsDataLoader
 import com.netflix.graphql.dgs.DgsComponent

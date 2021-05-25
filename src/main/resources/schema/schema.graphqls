@@ -1,6 +1,6 @@
 type Query {
 
-    expenses : [Expense]
+    expenses(filter: ExpenseFilter, pageNumber: Int, pageSize: Int) : ExpensePage
     accounts: [Account]
 }
 
@@ -10,7 +10,18 @@ type Expense {
     remarks: String
     amount: Int
     isIncome: Boolean
+    acNumber: Int
     account: Account
+}
+
+type ExpensePage {
+
+    list: [Expense],
+
+    totalPages: Int,
+
+    currentPage: Int
+
 }
 
 type Mutation {
@@ -46,4 +57,9 @@ input AccountInput {
     acNumber: ID,
     nickName: String,
     balance: Int,
+}
+
+input ExpenseFilter {
+    acNumber: ID,
+    isIncome: Boolean
 }

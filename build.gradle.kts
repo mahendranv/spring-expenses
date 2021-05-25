@@ -5,6 +5,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	kotlin("jvm") version "1.4.32"
 	kotlin("plugin.spring") version "1.4.32"
+	id("com.netflix.dgs.codegen") version "4.6.4"
 }
 
 group = "com.ex2.gql"
@@ -15,11 +16,10 @@ repositories {
 	mavenCentral()
 }
 
-//generateJava{
-//	schemaPaths = ["${projectDir}/src/main/resources/schema"]
-//	packageName = 'com.ex2.gql.data'
-//	generateClient = true
-//}
+tasks.withType<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask> {
+	packageName = "com.ex2.gql.dgmodels"
+	schemaPaths = mutableListOf("${projectDir}/src/main/resources/schema")
+}
 
 
 dependencies {
